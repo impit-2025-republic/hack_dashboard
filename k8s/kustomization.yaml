@@ -6,4 +6,4 @@ images:
 - name: ghcr.io/impit-2025-republic/hack_dashboard--main
   newTag: ca72778
 - name: ghcr.io/impit-2025-republic/hack_dashboard-main
-  newTag: cf95d43
+  newTag: 4668d08
