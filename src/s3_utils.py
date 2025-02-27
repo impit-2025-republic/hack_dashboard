@@ -1,38 +1,52 @@
 # src/s3_utils.py
 import uuid
-from settings import s3_client, S3_BUCKET_NAME
+import boto3
+from settings import S3_BUCKET_NAME, S3_ENDPOINT_URL, S3_ACCESS_KEY, S3_SECRET_KEY
+
+def s3_client():
+    """
+    Создаёт и возвращает клиент для работы с S3.
+    """
+    return boto3.client(
+        's3',
+        endpoint_url=S3_ENDPOINT_URL,
+        aws_access_key_id=S3_ACCESS_KEY,
+        aws_secret_access_key=S3_SECRET_KEY
+    )
 
 def upload_to_s3(file_bytes, original_filename):
     """
-    Загружает файл (в байтах) в S3 и возвращает сформированный URL или ключ.
+    Загружает файл (в байтах) в S3 и возвращает публичную ссылку на него.
 
     :param file_bytes: содержимое файла (bytes)
-    :param original_filename: исходное имя файла (чтобы взять расширение и т.д.)
-    :return: публичная ссылка (или путь) на загруженный файл
+    :param original_filename: исходное имя файла (например, "bronze_case.png")
+    :return: публичная ссылка на загруженный файл
     """
     s3 = s3_client()
 
-    # Можно придумать логику генерации уникального имени
-    # Например, используем UUID + расширение из original_filename
-    file_ext = ""
-    if "." in original_filename:
-        file_ext = "." + original_filename.split(".")[-1]
-    unique_name = f"{uuid.uuid4()}{file_ext}"
+    # Определяем Content-Type на основе расширения файла
+    if original_filename.lower().endswith(('.jpg', '.jpeg')):
+        content_type = 'image/jpeg'
+    elif original_filename.lower().endswith('.png'):
+        content_type = 'image/png'
+    else:
+        content_type = 'application/octet-stream'
 
-    # Загружаем в бакет
+    # Генерируем уникальное имя файла с сохранением оригинального имени,
+    # например, помещая файлы в папку images/
+    unique_name = f"images/{uuid.uuid4().hex}_{original_filename}"
+
+    # Загружаем файл в бакет
     s3.put_object(
         Bucket=S3_BUCKET_NAME,
         Key=unique_name,
         Body=file_bytes,
-        ContentType="image/jpeg"  # или что-то другое, если определяете тип
+        ContentType=content_type,
+        ACL="public-read"  # делаем файл публично доступным
     )
 
-    # Сформируем публичную ссылку. Иногда надо включать настройки "public-read".
-    # Если у вас публичный бакет, ссылка может быть:
-    s3_url = f"{S3_BUCKET_NAME}/{unique_name}"
-
-    # Или, если у вас HTTPS-домен для S3, это будет
-    # s3_url = f"https://{S3_BUCKET_NAME}.s3.your-endpoint/{unique_name}"
+    # Формируем публичную ссылку
+    s3_url = f"{S3_ENDPOINT_URL}/{S3_BUCKET_NAME}/{unique_name}"
 
     return s3_url
 
