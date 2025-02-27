@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "demand-prediction-dashboard"
+version = "0.1.0"
+description = "Dashboard for demand prediction using Streamlit"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+# Вместо "latest" используем "*" или указываем конкретные версии
+streamlit = "*"
+pandas = "*"
+numpy = "*"
+scikit-learn = "*"
+matplotlib = "*"
+seaborn = "*"
+requests = "*"
+plotly = "*"
+polars = '*'
+psycopg2-binary = '*'
+boto3 = '*'
+python-dotenv = '*'
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+black = "*"
+isort = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,13 @@
+services:
+  dashboard:
+    build:
+      context: .
+    command: streamlit run src/app.py --server.port=8502 --server.fileWatcherType=none
+    ports:
+      - 8502:8502
+    volumes:
+      - ./src/.env:/opt/app/.env
+    restart: always
+    mem_reservation: 8G
+    mem_limit: 8G
+    cpus: 4

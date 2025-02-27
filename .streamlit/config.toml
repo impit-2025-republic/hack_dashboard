@@ -1,0 +1,15 @@
+[server]
+maxMessageSize = 350
+
+[browser]
+gatherUsageStats = false
+
+[global]
+disableWidgetStateDuplicationWarning = true
+
+[logger]
+level = "info"
+
+[client]
+showErrorDetails = false
+toolbarMode = "viewer"
