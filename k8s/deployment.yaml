@@ -62,7 +62,7 @@ spec:
               name: s3-secrets
               key: bucket
         ports:
-        - containerPort: 8085
+        - containerPort: 8502
           name: http
         resources:
           requests:
