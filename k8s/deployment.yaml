@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: admin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: admin
   template:
     metadata:
       labels:
-        app: frontend
+        app: admin
     spec:
       containers:
-      - name: frontend
+      - name: admin
         image: ghcr.io/impit-2025-republic/hack_dashboard-main:latest
         env:
         - name: POSTGRES_HOST
@@ -75,10 +75,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: admin
 spec:
   selector:
-    app: frontend
+    app: admin
   ports:
   - port: 8085
     targetPort: 8085
