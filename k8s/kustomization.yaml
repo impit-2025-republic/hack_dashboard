@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
 - deployment.yaml
 images:
+- name: ghcr.io/impit-2025-republic/hack_dashboard--main
+  newTag: 1a356bd
 - name: ghcr.io/impit-2025-republic/hack_dashboard-main
   newTag: cf95d43
