@@ -40,7 +40,7 @@ RUN groupadd --gid=65532 nonroot \
 USER nonroot
 
 # При желании можно раскомментировать и добавить команду запуска, например:
-CMD ["poetry", "run", "streamlit", "run", "/opt/app/src/app.py"]
+CMD ["poetry", "run", "streamlit", "run", "/opt/app/src/app.py", "--server.port=8502", "--server.fileWatcherType=none"]
 
 # Либо оставить образ без CMD, чтобы команда указывалась при запуске контейнера:
 # docker run --rm -it <image_name> poetry run python src/app.py

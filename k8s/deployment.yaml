@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/impit-2025-republic/hack_dashboard-main:latest
+        env:
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: host
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: port
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: user
+        - name: POSTGRES_PWD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: db
+        - name: S3_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: s3-secrets
+              key: url
+        - name: S3_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-secrets
+              key: access_key
+        - name: S3_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-secrets
+              key: secret_key
+        - name: S3_BUCKET_NAME
+          valueFrom:
+            secretKeyRef:
+              name: s3-secrets
+              key: bucket
+        ports:
+        - containerPort: 8085
+          name: http
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "3Gi"
+          limits:
+            cpu: "500m"
+            memory: "3Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 8085
+    targetPort: 8085
+    name: http
