@@ -25,13 +25,13 @@ jobs:
         with:
           load: true
           push: false
-          tags: ghcr.io/impit-2025-republic/hack_dashboard--${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
+          tags: ghcr.io/impit-2025-republic/hack_dashboard-${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/impit-2025-republic/hack_dashboard--${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
+          tags: ghcr.io/impit-2025-republic/hack_dashboard-${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
       - name: Install Kustomize
         run: |
             curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
@@ -40,7 +40,7 @@ jobs:
       - name: Update Kustomize image tag
         run: |
             cd k8s
-            kustomize edit set image ghcr.io/impit-2025-republic/hack_dashboard--${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
+            kustomize edit set image ghcr.io/impit-2025-republic/hack_dashboard-${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
             
       - name: Commit and push changes
         run: |
