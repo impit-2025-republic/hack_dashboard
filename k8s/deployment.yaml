@@ -80,6 +80,6 @@ spec:
   selector:
     app: admin
   ports:
-  - port: 8085
-    targetPort: 8085
+  - port: 8502
+    targetPort: 8502
     name: http
