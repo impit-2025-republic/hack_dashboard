@@ -4,6 +4,6 @@ resources:
 - deployment.yaml
 images:
 - name: ghcr.io/impit-2025-republic/hack_dashboard--main
-  newTag: 1a356bd
+  newTag: ca72778
 - name: ghcr.io/impit-2025-republic/hack_dashboard-main
   newTag: cf95d43
